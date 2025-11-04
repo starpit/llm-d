@@ -29,8 +29,11 @@ if [ "$TARGETOS" = "ubuntu" ]; then
     apt-get update -qq
     apt-get install -y jq
 elif [ "$TARGETOS" = "rhel" ]; then
+    echo "AAAAAAAA"
     dnf -q update -y
+    echo "BBBBBBBB"
     dnf -q install -y jq
+    echo "CCCCCCCC"
 fi
 
 # main installation logic
@@ -41,10 +44,15 @@ if [ "$TARGETOS" = "ubuntu" ]; then
     cleanup_packages ubuntu
 
 elif [ "$TARGETOS" = "rhel" ]; then
+    echo "DDDDDDDDDDDDD"
     setup_rhel_repos "$DOWNLOAD_ARCH"
+    echo "EEEEEEEEEEEEEE"
     mapfile -t INSTALL_PKGS < <(load_layered_packages rhel "runtime-packages.json" "cuda")
+    echo "FFFFFFFFFFFFF"
     install_packages rhel "${INSTALL_PKGS[@]}"
+    echo "GGGGGGGGGGGGGG"
     cleanup_packages rhel
+    echo "HHHHHHHHHHHHHH"
 
 else
     echo "ERROR: Unsupported TARGETOS='$TARGETOS'. Must be 'ubuntu' or 'rhel'." >&2
